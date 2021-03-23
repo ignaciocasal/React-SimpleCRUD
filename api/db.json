@@ -1,0 +1,16 @@
+{
+  "posts": [
+    {
+      "name": "My first post",
+      "description": "This is my first post!",
+      "userId": "116549306356312263073",
+      "id": 1
+    },
+    {
+      "name": "Another post",
+      "description": "This is the description of my post",
+      "userId": "116549306356312263073",
+      "id": 2
+    }
+  ]
+}
