@@ -1,52 +1,36 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Button, Confirm, Modal} from "semantic-ui-react";
 import history from "../../history";
 import {deletePost, fetchPost} from "../../actions";
 import {connect} from "react-redux";
 
-class PostDelete extends React.Component {
+const PostDelete = (props) => {
 
-    componentDidMount() {
-        const id = this.props.match.params.id
-        this.props.fetchPost(id);
-    }
-
-    handleConfirm = () => {
-        this.props.deletePost(this.props.post.id)
+    const handleConfirm = () => {
+        props.deletePost(props.post.id)
+        props.onClose()
     };
 
-    handleCancel() {
-        history.push('/')
-    }
-
-    render() {
-        return (
-            <div>
-                <Modal
-                    size='tiny'
-                    open={true}
-                    onClose={this.handleCancel}>
-                    <Modal.Header>Delete Your Post</Modal.Header>
-                    <Modal.Content>
-                        <p>Are you sure you want to delete {this.props.post?.name}?</p>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button onClick={this.handleCancel}>
-                            Cancel
-                        </Button>
-                        <Button negative onClick={this.handleConfirm}>
-                            Delete
-                        </Button>
-                    </Modal.Actions>
-                </Modal>
-            </div>
-
-        );
-    }
+    return (
+        <Modal
+            size='tiny'
+            dimmer={'blurring'}
+            open={props.open}
+            onClose={props.onClose}>
+            <Modal.Header>Delete Your Post</Modal.Header>
+            <Modal.Content>
+                <p>Are you sure you want to delete {props.post?.name}?</p>
+            </Modal.Content>
+            <Modal.Actions>
+                <Button onClick={props.onClose}>
+                    Cancel
+                </Button>
+                <Button negative onClick={handleConfirm}>
+                    Delete
+                </Button>
+            </Modal.Actions>
+        </Modal>
+    )
 }
 
-const mapStateToProps = (state, ownProps) => {
-    return {post: state.posts[ownProps.match.params.id]}
-}
-
-export default connect(mapStateToProps, {fetchPost, deletePost})(PostDelete);
+export default connect(null, {fetchPost, deletePost})(PostDelete);

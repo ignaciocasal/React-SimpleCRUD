@@ -1,36 +1,34 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Header, Image} from "semantic-ui-react";
 import {fetchPost} from "../../actions";
 import {connect} from "react-redux";
 
-class PostShow extends React.Component {
+const PostShow = (props) => {
 
-    componentDidMount() {
-        this.props.fetchPost(this.props.match.params.id)
+    useEffect(() => {
+        return props.fetchPost(props.match.params.id)
+    }, []);
+
+
+    if (!props.post) {
+        return <div>Loading...</div>
     }
 
-    render() {
-        if (!this.props.post) {
-            return <div>Loading...</div>
-        }
+    const {id, name, description} = props.post
 
-        const {id, name, description} = this.props.post
-
-        return (
-            <div>
-                <Header as='h2' icon textAlign='center'>
-                    <Image avatar src={`https://i.pravatar.cc/80?u=${id}`}/>
-                    <Header.Content>
-                        {name}
-                    </Header.Content>
-                </Header>
-                <h3 align={'center'}>
-                    {description}
-                </h3>
-
-            </div>
-        );
-    }
+    return (
+        <div>
+            <Header as='h2' icon textAlign='center'>
+                <Image avatar src={`https://i.pravatar.cc/80?u=${id}`}/>
+                <Header.Content>
+                    {name}
+                </Header.Content>
+            </Header>
+            <h3 align={'center'}>
+                {description}
+            </h3>
+        </div>
+    );
 }
 
 const mapStateToProps = (state, ownProps) => {

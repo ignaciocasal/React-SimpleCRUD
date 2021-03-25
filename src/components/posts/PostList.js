@@ -1,17 +1,21 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Button, Header, Icon, Item} from "semantic-ui-react";
 import {connect} from "react-redux";
 import {fetchPosts} from "../../actions";
+import PostDelete from "./PostDelete";
 
-class PostList extends React.Component {
 
-    componentDidMount() {
-        this.props.fetchPosts();
-    }
+const PostList = (props) => {
+    const [modalOpen, setModalOpen] = useState(false);
+    const [activePost, setActivePost] = useState();
 
-    renderCreateButton() {
-        if (this.props.isSignedIn) {
+    useEffect(() => {
+        return props.fetchPosts();
+    }, []);
+
+    const renderCreateButton = () => {
+        if (props.isSignedIn) {
             return (
                 <Link to="posts/new">
                     <Button color="violet" floated='right'>
@@ -22,15 +26,18 @@ class PostList extends React.Component {
         }
     }
 
-    renderPostButtons(post) {
-        if (post.userId === this.props.currentUserId) {
+    const openModalHandler = (post) =>{
+        setActivePost(post)
+        setModalOpen(true)
+    }
+
+    const renderPostButtons = (post) => {
+        if (post.userId === props.currentUserId) {
             return (
                 <div>
-                    <Link to={`posts/delete/${post.id}`}>
-                        <Button icon color='red' basic floated='right'>
-                            <Icon name='trash'/>
-                        </Button>
-                    </Link>
+                    <Button icon color='red' basic floated='right' onClick={()=>openModalHandler(post)}>
+                        <Icon name='trash'/>
+                    </Button>
                     <Link to={`posts/edit/${post.id}`}>
                         <Button icon color='violet' floated='right'>
                             <Icon name='edit'/>
@@ -41,16 +48,16 @@ class PostList extends React.Component {
         }
     }
 
-    renderPosts() {
-        return this.props.posts.map(post => {
+    const renderPosts = () => {
+        return props.posts.map(post => {
             return (
-                <Item key={post.id} divided>
+                <Item key={post.id} divided='true'>
                     <Item.Image avatar size='tiny' src={`https://i.pravatar.cc/80?u=${post.id}`}/>
                     <Item.Content verticalAlign='middle'>
                         <Item.Header><Link to={`/posts/${post.id}`}>{post.name}</Link></Item.Header>
                         <Item.Description>{post.description}</Item.Description>
                         <Item.Extra>
-                            {this.renderPostButtons(post)}
+                            {renderPostButtons(post)}
                         </Item.Extra>
                     </Item.Content>
                 </Item>
@@ -58,21 +65,20 @@ class PostList extends React.Component {
         })
     }
 
-    render() {
-        return (
-            <div>
-                <Header dividing
+    return (
+        <div>
+            <Header dividing
                     as='h2'
                     content='Post List'
                     subheader='All posts created by users are displayed here.'
-                />
-                {this.renderCreateButton()}
-                <Item.Group divided relaxed>
-                    {this.renderPosts()}
-                </Item.Group>
-            </div>
-        );
-    }
+            />
+            {renderCreateButton()}
+            <Item.Group divided relaxed>
+                {renderPosts()}
+            </Item.Group>
+            <PostDelete open={modalOpen} post={activePost} onClose={() => setModalOpen(false)}/>
+        </div>
+    );
 }
 
 const mapStateToProps = state => ({
