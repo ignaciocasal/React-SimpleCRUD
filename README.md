@@ -5,7 +5,7 @@ This is a simple SPA that handles Create, Read, Update, and Delete operations us
 
 # Demo
 
-Here is a working live demo : https://link.app
+Here is a working live demo : https://react-simplecrud.netlify.app
 
 # Tech Stack
 - React JS
