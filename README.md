@@ -1,3 +1,4 @@
+
 # React SimpleCRUD
 
 This is a simple SPA that handles Create, Read, Update, and Delete operations using React and JSON Server REST API. Semantic UI React was used for the UI and Google OAuth for user authentication
@@ -31,6 +32,19 @@ Here is a working live demo : https://link.app
 
 # Screenshots
 
+
+![Post list](https://github.com/ignaciocasal/React-SimpleCRUD/blob/master/screenshots/PostList.png?raw=true)
+
+![Post delete](https://github.com/ignaciocasal/React-SimpleCRUD/blob/master/screenshots/PostDelete.png?raw=true)
+
+![Post create](https://github.com/ignaciocasal/React-SimpleCRUD/blob/master/screenshots/PostCreate.png?raw=true)
+
+![Post edit](https://github.com/ignaciocasal/React-SimpleCRUD/blob/master/screenshots/PostEdit.png?raw=true)
+
+![Post detail](https://github.com/ignaciocasal/React-SimpleCRUD/blob/master/screenshots/PostShow.png?raw=true)
+
+
+
 # Running app locally
 
 ## Run the App
@@ -41,3 +55,5 @@ Here is a working live demo : https://link.app
 	$ cd api
     $ npm install
 	$ npm start
+	
+
