@@ -1,6 +1,5 @@
-import React, {useEffect} from 'react';
-import {Button, Confirm, Modal} from "semantic-ui-react";
-import history from "../../history";
+import React from 'react';
+import {Button, Modal} from "semantic-ui-react";
 import {deletePost, fetchPost} from "../../actions";
 import {connect} from "react-redux";
 
