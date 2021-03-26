@@ -1,16 +1,25 @@
 import React from 'react';
-import {withFormik} from "formik";
+import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {Button, Form, Icon, Message} from "semantic-ui-react";
 
 const PostForm = props => {
-    const {
-        values,
-        touched,
-        errors,
-        handleChange,
-        handleSubmit,
-    } = props;
+    const {getFieldProps, handleSubmit, errors, touched} = useFormik({
+        initialValues: {
+            name: '',
+            description: '',
+            ...props.initialValues
+        },
+        validationSchema: Yup.object().shape({
+            name: Yup.string()
+                .required('Name is required.'),
+            description: Yup.string()
+                .required('Description is required.'),
+        }),
+        onSubmit(values) {
+            props.onSubmit(values);
+        }
+    });
 
     return (
         <div>
@@ -21,8 +30,7 @@ const PostForm = props => {
                         name="name"
                         type="text"
                         autoComplete="off"
-                        onChange={handleChange}
-                        value={values.name}
+                        {...getFieldProps("name")}
                     />
                     {errors.name && touched.name && <Message negative size='tiny'>{errors.name}</Message>}
                 </Form.Field>
@@ -32,8 +40,7 @@ const PostForm = props => {
                         name="description"
                         type="text"
                         autoComplete="off"
-                        onChange={handleChange}
-                        value={values.description}
+                        {...getFieldProps("description")}
                     />
                     {errors.description && touched.description && <Message negative size='tiny'>{errors.description}</Message>}
                 </Form.Field>
@@ -43,21 +50,7 @@ const PostForm = props => {
     );
 };
 
-
-export default withFormik({
-    mapPropsToValues: (props) => ({...props.initialValues}),
-
-    validationSchema: Yup.object().shape({
-        name: Yup.string()
-            .required('Name is required.'),
-        description: Yup.string()
-            .required('Description is required.'),
-    }),
-
-    handleSubmit: (values, {props}) => {
-        props.onSubmit(values);
-    },
-})(PostForm);
+export default PostForm;
 
 
 
